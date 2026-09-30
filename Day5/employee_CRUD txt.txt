@@ -1,0 +1,43 @@
+import mysql.connector 
+# Connect to MySQL 
+db = mysql.connector.connect( 
+host="localhost", 
+user="root", 
+password="sec@123", 
+database="employeedb" 
+) 
+cursor = db.cursor()
+print('successfully conected')
+
+
+
+def view_employee(): 
+  cursor.execute("SELECT * FROM employee") 
+  records = cursor.fetchall() 
+  print("\nemployee Records") 
+  print("------------------------------") 
+  for row in records: 
+   print(row) 
+  print()
+view_employee()
+
+
+def update_employee(): 
+  emp_id = int(input("Enter employee ID: ")) 
+  new_salary = input("Enter New salary: ") 
+  sql = "UPDATE employee SET salary=%s WHERE emp_id=%s" 
+  values = (new_salary, emp_id) 
+  cursor.execute(sql, values) 
+  db.commit() 
+  print("employee Updated Successfully!\n")
+update_employee();
+view_employee();
+
+def delete_employee(): 
+ emp_id = int(input("Enter  emp_ID: ")) 
+ sql = "DELETE FROM employee WHERE emp_id=%s" 
+ cursor.execute(sql, (emp_id,)) 
+ db.commit() 
+ print("employee Deleted Successfully!\n")
+delete_employee();
+view_employee();
